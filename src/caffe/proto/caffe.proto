@@ -306,7 +306,7 @@ message ParamSpec {
 // NOTE
 // Update the next available ID when you add a new LayerParameter field.
 //
-// LayerParameter next available layer-specific ID: 143 (last added: scale_param)
+// LayerParameter next available layer-specific ID: 146 (last added: SegAccuracyParam)
 message LayerParameter {
   optional string name = 1; // the layer name
   optional string type = 2; // the layer type
@@ -394,7 +394,41 @@ message LayerParameter {
   optional ThresholdParameter threshold_param = 128;
   optional TileParameter tile_param = 138;
   optional WindowDataParameter window_data_param = 129;
+  optional InterpParameter interp_param = 143;
+  optional PaddingParameter padding_param = 144;
+  optional SegAccuracyParameter seg_accuracy_param = 145;
 }
+
+// Message that stores parameters used by InterpLayer
+message InterpParameter {
+  optional int32 height = 1 [default = 0]; // Height of output
+  optional int32 width = 2 [default = 0]; // Width of output
+  optional int32 zoom_factor = 3 [default = 1]; // zoom factor
+  optional int32 shrink_factor = 4 [default = 1]; // shrink factor
+  optional int32 pad_beg = 5 [default = 0]; // padding at begin of input
+  optional int32 pad_end = 6 [default = 0]; // padding at end of input
+}
+
+// Message that stores parameters used by PaddingLayer
+message PaddingParameter {
+  optional int32 pad_beg = 1 [default = 0]; // Padding at the beginning
+  optional int32 pad_end = 2 [default = 0]; // Padding at the end
+}
+
+// Message that stores parametres used by SegAccuracyLayer
+message SegAccuracyParameter {
+  enum AccuracyMetric {
+    PixelAccuracy = 0;
+    ClassAccuracy = 1;
+    PixelIOU = 2;
+  }
+  optional AccuracyMetric metric = 1 [default = PixelAccuracy];
+  // will ignore pixels with this value when computing accuracy
+  repeated int32 ignore_label = 2;
+}
+
+
+
 
 // Message that stores parameters used to apply transformation
 // to the data layer's data
