@@ -765,6 +765,10 @@ class SoftmaxWithLossLayer : public LossLayer<Dtype> {
   /// Whether to normalize the loss by the total number of values present
   /// (otherwise just by the batch size).
   bool normalize_;
+  // Added by Olaf:
+  // provide loss weights for different classes to compensate for
+  // unbalanaced training data or different importance of the classes
+  vector<float> class_loss_weights_;
 
   int softmax_axis_, outer_num_, inner_num_;
 };
